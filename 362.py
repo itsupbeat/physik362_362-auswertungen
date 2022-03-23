@@ -33,7 +33,7 @@ def lin_model(x, a, b):
     return x * a + b
 
 
-def lin_fit(x, y, x_err, y_err, title="", x_name="", y_name=""):
+def lin_fit(x, y, x_err, y_err, title="", x_name="", y_name="", filename=f"lin-fit"):
     """
     Function for linear fit
     :param x: values x axis
@@ -43,6 +43,7 @@ def lin_fit(x, y, x_err, y_err, title="", x_name="", y_name=""):
     :param title: string used as header
     :param x_name: string used as label for x axis
     :param y_name: string used as label for y axis
+    :param filename: name your exported file
     :return:
     """
     data = xy_data(x, y, x_err, y_err)
@@ -68,7 +69,7 @@ def lin_fit(x, y, x_err, y_err, title="", x_name="", y_name=""):
 
     ax.legend()
 
-    fig.savefig(f'370_a.pdf')
+    fig.savefig(f'{filename}.pdf')
 
     plt.show()
 
@@ -85,8 +86,8 @@ gamma = a_data[:, 9]
 gamma_err = a_data[:, 10]
 
 print(x_strich)
-lin_fit(durch_gamma, x, durch_gamma_err, x_err, 'Abbesches Verfahren 1', '1 + 1/gamma', 'x [cm]')
-lin_fit(gamma, x_strich, gamma_err, x_strich_err, 'Abbesches Verfahren 2', '1 + gamma', 'x\' [cm]')
+lin_fit(durch_gamma, x, durch_gamma_err, x_err, 'Abbesches Verfahren 1', '1 + 1/gamma', 'x [cm]', 'a_1')
+lin_fit(gamma, x_strich, gamma_err, x_strich_err, 'Abbesches Verfahren 2', '1 + gamma', 'x\' [cm]', 'a_2')
 
 
 ##
