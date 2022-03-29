@@ -74,20 +74,20 @@ def lin_fit(x, y, x_err, y_err, title="", x_name="", y_name="", filename=f"lin-f
     plt.show()
 
 
-a_data = np.loadtxt('a.txt')
-x = a_data[:, 3]
-x_err = a_data[:, 4]
-durch_gamma = a_data[:, 7]
-durch_gamma_err = a_data[:, 8]
-
-x_strich = a_data[:, 5]
-x_strich_err = a_data[:, 6]
-gamma = a_data[:, 9]
-gamma_err = a_data[:, 10]
-
-print(x_strich)
-lin_fit(durch_gamma, x, durch_gamma_err, x_err, 'Abbesches Verfahren 1', '1 + 1/gamma', 'x [cm]', 'a_1')
-lin_fit(gamma, x_strich, gamma_err, x_strich_err, 'Abbesches Verfahren 2', '1 + gamma', 'x\' [cm]', 'a_2')
+# a_data = np.loadtxt('a.txt')
+# x = a_data[:, 3]
+# x_err = a_data[:, 4]
+# durch_gamma = a_data[:, 7]
+# durch_gamma_err = a_data[:, 8]
+#
+# x_strich = a_data[:, 5]
+# x_strich_err = a_data[:, 6]
+# gamma = a_data[:, 9]
+# gamma_err = a_data[:, 10]
+#
+# print(x_strich)
+# lin_fit(durch_gamma, x, durch_gamma_err, x_err, 'Abbesches Verfahren 1', '1 + 1/gamma', 'x [cm]', 'a_1')
+# lin_fit(gamma, x_strich, gamma_err, x_strich_err, 'Abbesches Verfahren 2', '1 + gamma', 'x\' [cm]', 'a_2')
 
 
 ##
@@ -115,5 +115,35 @@ def errorbar(data):
     plt.show()
 
 
-data = np.loadtxt("e_bis_g.txt")
-errorbar(data)
+# data = np.loadtxt("e_bis_g.txt")
+# errorbar(data)
+
+
+def colormap(datapoints, filename):
+    """
+    outputs a colormap for given datapoints
+    :param datapoints:
+    :return:
+    """
+
+    x_labels = ['1', '2', '3', '4', '5', '6']
+    y_labels = ['1', '2', '3', '4']
+
+    fig, ax = plt.subplots()
+    im = ax.imshow(datapoints)
+
+    ax.set_xticks(np.arange(len(x_labels)), labels=x_labels)
+    ax.set_yticks(np.arange(len(y_labels)), labels=y_labels)
+
+    for i in range(len(y_labels)):
+        for j in range(len(x_labels)):
+            text = ax.text(j, i, datapoints[i, j], ha="center", va="center", color="w")
+
+    ax.set_title("Beleuchtung der Datenpunkte [lx]")
+    fig.tight_layout()
+    plt.show()
+    fig.savefig(filename)
+
+
+e = np.loadtxt("362_e.csv")
+colormap(e, f'362_e.pdf')
