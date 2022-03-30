@@ -110,7 +110,7 @@ def errorbar(data):
 
     ax.legend()
 
-    fig.savefig(f'370_e.pdf')
+    fig.savefig(f'362_e-bis-g.pdf')
 
     plt.show()
 
