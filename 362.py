@@ -119,7 +119,7 @@ def errorbar(data):
 # errorbar(data)
 
 
-def colormap(datapoints, filename, min=0, max=12, colour='gray', threshhold=5,
+def colormap(datapoints, filename, min=0, max=12, colour='gray', threshhold=7.5,
              title="Beleuchtung der Messstellen [lx]"):
     names = np.array([[25, 21, 17, 13, 9, 5],
                       [24, 20, 16, 12, 8, 3.5],
