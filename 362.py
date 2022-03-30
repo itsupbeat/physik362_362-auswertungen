@@ -119,31 +119,54 @@ def errorbar(data):
 # errorbar(data)
 
 
-def colormap(datapoints, filename):
-    """
-    outputs a colormap for given datapoints
-    :param datapoints:
-    :return:
-    """
-
+def colormap(datapoints, filename, min=0, max=12, colour='gray', threshhold=5,
+             title="Beleuchtung der Messstellen [lx]"):
+    names = np.array([[25, 21, 17, 13, 9, 5],
+                      [24, 20, 16, 12, 8, 3.5],
+                      [23, 19, 15, 11, 7, 2],
+                      [22, 18, 14, 10, 6, 1]])
     x_labels = ['1', '2', '3', '4', '5', '6']
-    y_labels = ['1', '2', '3', '4']
+    y_labels = ['4', '3', '2', '1']
 
     fig, ax = plt.subplots()
-    im = ax.imshow(datapoints)
+    im = ax.imshow(datapoints, cmap=colour, vmin=min, vmax=max)
+    cbar = ax.figure.colorbar(im, ax=ax)
 
     ax.set_xticks(np.arange(len(x_labels)), labels=x_labels)
     ax.set_yticks(np.arange(len(y_labels)), labels=y_labels)
 
     for i in range(len(y_labels)):
         for j in range(len(x_labels)):
-            text = ax.text(j, i, datapoints[i, j], ha="center", va="center", color="w")
+            if datapoints[i, j] >= threshhold and names[i, j] != 3.5:
+                text = ax.text(j, i, f'(#{int(names[i, j])})\n{datapoints[i, j]}', ha="center", va="center",
+                               color="black")
+            else:
+                if names[i, j] == 3.5:
+                    if datapoints[i, j] >= threshhold:
+                        text = ax.text(j, i, f'(#{names[i, j]})\n{datapoints[i, j]}', ha="center", va="center",
+                                       color="black")
+                    else:
+                        text = ax.text(j, i, f'(#{names[i, j]})\n{datapoints[i, j]}', ha="center", va="center",
+                                       color="w")
+                else:
+                    text = ax.text(j, i, f'(#{int(names[i, j])})\n{datapoints[i, j]}', ha="center", va="center",
+                                   color="white")
 
-    ax.set_title("Beleuchtung der Datenpunkte [lx]")
+    ax.set_title(title)
     fig.tight_layout()
     plt.show()
     fig.savefig(filename)
 
 
 e = np.loadtxt("362_e.csv")
-colormap(e, f'362_e.pdf')
+colormap(e, f'362_e.pdf', title="Beleuchtung der Messstellen 362.e [lx]")
+f = np.loadtxt("362_f.csv")
+colormap(f, f'362_f.pdf', title="Beleuchtung der Messstellen 362.f [lx]")
+ef = np.around(f-e, 1)
+print(ef)
+colormap(ef, f'362_ef.pdf', -3.6, 3.6, 'coolwarm', -5,
+         title='Differenz der Werte aus Versuchsteil\n362.e und 362.f (f-e) [lx]')
+g_1 = np.loadtxt("362_g-1.csv")
+colormap(g_1, f'362_g-1.pdf', title="Beleuchtung der Messstellen 362.g [lx]\n(Plane Seite zur Wand)")
+g_2 = np.loadtxt("362_g-2.csv")
+colormap(g_2, f'362_g-2.pdf', title="Beleuchtung der Messstellen 362.g [lx]\n(Gewölbte Seite zur Wand)")
