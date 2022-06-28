@@ -3,6 +3,12 @@ import matplotlib.pyplot as plt
 from kafe2 import XYContainer, Fit, Plot, ContoursProfiler
 
 
+plt.rcParams.update({
+    'text.usetex': True,
+    'font.family': 'serif'
+})
+
+
 def xy_data(x_data, y_data, x_err=0, y_err=0):
     '''
     Function to make code more clear. Builds the XYContainer used by kafe2
@@ -16,6 +22,7 @@ def xy_data(x_data, y_data, x_err=0, y_err=0):
     data.add_error(axis='x', err_val=x_err)
     data.add_error(axis='y', err_val=y_err)
     return data
+
 
 ###
 # a
@@ -101,7 +108,7 @@ def errorbar(data):
     x = data[:, 0]
     for n in range(4):
         print(n)
-        ax.errorbar(x, data[:, n*2+1], yerr=data[:, n*2+2], label=names[n], fmt='x')
+        ax.errorbar(x, data[:, n * 2 + 1], yerr=data[:, n * 2 + 2], label=names[n], fmt='x')
 
     ax.grid(True)
     ax.set_title("Beleuchtung der Punkte")
@@ -138,18 +145,18 @@ def colormap(datapoints, filename, min=0, max=12, colour='gray', threshhold=7.5,
     for i in range(len(y_labels)):
         for j in range(len(x_labels)):
             if datapoints[i, j] >= threshhold and names[i, j] != 3.5:
-                text = ax.text(j, i, f'(#{int(names[i, j])})\n{datapoints[i, j]}', ha="center", va="center",
+                text = ax.text(j, i, f'(\#{int(names[i, j])})\n{datapoints[i, j]}', ha="center", va="center",
                                color="black")
             else:
                 if names[i, j] == 3.5:
                     if datapoints[i, j] >= threshhold:
-                        text = ax.text(j, i, f'(#{names[i, j]})\n{datapoints[i, j]}', ha="center", va="center",
+                        text = ax.text(j, i, f'(\#{names[i, j]})\n{datapoints[i, j]}', ha="center", va="center",
                                        color="black")
                     else:
-                        text = ax.text(j, i, f'(#{names[i, j]})\n{datapoints[i, j]}', ha="center", va="center",
+                        text = ax.text(j, i, f'(\#{names[i, j]})\n{datapoints[i, j]}', ha="center", va="center",
                                        color="w")
                 else:
-                    text = ax.text(j, i, f'(#{int(names[i, j])})\n{datapoints[i, j]}', ha="center", va="center",
+                    text = ax.text(j, i, f'(\#{int(names[i, j])})\n{datapoints[i, j]}', ha="center", va="center",
                                    color="white")
 
     ax.set_title(title)
@@ -162,7 +169,7 @@ e = np.loadtxt("362_e.csv")
 colormap(e, f'362_e.pdf', title="Beleuchtung der Messstellen 362.e [lx]")
 f = np.loadtxt("362_f.csv")
 colormap(f, f'362_f.pdf', title="Beleuchtung der Messstellen 362.f [lx]")
-ef = np.around(f-e, 1)
+ef = np.around(f - e, 1)
 print(ef)
 colormap(ef, f'362_ef.pdf', -3.6, 3.6, 'coolwarm', -5,
          title='Differenz der Werte aus Versuchsteil\n362.e und 362.f (f-e) [lx]')
